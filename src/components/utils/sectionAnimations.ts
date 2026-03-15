@@ -108,7 +108,6 @@ export function registerSectionAnimations() {
         stagger: 0.08,
       });
       document.querySelectorAll(serviceCards).forEach((card, i) => {
-        const fromLeft = i % 2 === 0;
         gsap.to(card, {
           opacity: 1,
           x: 0,
