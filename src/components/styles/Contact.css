@@ -117,6 +117,25 @@
   cursor: not-allowed;
 }
 
+.contact-form-message {
+  font-size: 14px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 4px;
+}
+
+.contact-form-message-success {
+  color: var(--accentColor);
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.3);
+}
+
+.contact-form-message-error {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
 .contact-flex {
   display: flex;
   justify-content: space-between;

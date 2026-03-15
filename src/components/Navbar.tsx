@@ -10,28 +10,37 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
-    });
+    const wrapper = document.querySelector("#smooth-wrapper");
+    const content = document.querySelector("#smooth-content");
+    if (!wrapper || !content) return;
 
-    smoother.scrollTop(0);
-    smoother.paused(true);
+    try {
+      smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 1.7,
+        speed: 1.7,
+        effects: true,
+        autoResize: true,
+        ignoreMobileResize: true,
+      });
+
+      smoother.scrollTop(0);
+      smoother.paused(true);
+    } catch (_) {
+      // ScrollSmoother not available or DOM not ready
+    }
 
     let links = document.querySelectorAll(".header ul a");
     links.forEach((elem) => {
       let element = elem as HTMLAnchorElement;
       element.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024) {
+        if (window.innerWidth > 1024 && smoother) {
           e.preventDefault();
           let elem = e.currentTarget as HTMLAnchorElement;
           const section = elem.getAttribute("data-href");
-          if (section) smoother.scrollTo(section, true, "top top");
+          if (section && section !== "#") smoother.scrollTo(section, true, "top top");
+          else if (section === "#") smoother.scrollTop(0);
         }
       });
     });
@@ -43,24 +52,37 @@ const Navbar = () => {
     <>
       <div className="header">
         <a href="/#" className="navbar-title" data-cursor="disable">
-          SU
-        </a>
-        <a
-          href="mailto:shayan.umairadditise@gmail.com"
-          className="navbar-connect"
-          data-cursor="disable"
-        >
-          shayan.umairadditise@gmail.com
+          SU<span className="navbar-title-dot">.</span>
         </a>
         <ul>
+          <li>
+            <a data-href="#" href="#">
+              <HoverLinks text="HOME" />
+            </a>
+          </li>
           <li>
             <a data-href="#about" href="#about">
               <HoverLinks text="ABOUT" />
             </a>
           </li>
           <li>
+            <a data-href="#skills" href="#skills">
+              <HoverLinks text="SKILLS" />
+            </a>
+          </li>
+          <li>
+            <a data-href="#experience" href="#experience">
+              <HoverLinks text="EXPERIENCE" />
+            </a>
+          </li>
+          <li>
             <a data-href="#work" href="#work">
-              <HoverLinks text="WORK" />
+              <HoverLinks text="PROJECTS" />
+            </a>
+          </li>
+          <li>
+            <a data-href="#services" href="#services">
+              <HoverLinks text="SERVICES" />
             </a>
           </li>
           <li>

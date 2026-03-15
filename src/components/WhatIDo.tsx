@@ -8,16 +8,15 @@ const WhatIDo = () => {
     containerRef.current[index] = el;
   };
   useEffect(() => {
-    if (ScrollTrigger.isTouch) {
-      containerRef.current.forEach((container) => {
-        if (container) {
-          container.classList.remove("what-noTouch");
-          container.addEventListener("click", () => handleClick(container));
-        }
-      });
-    }
+    const containers = containerRef.current;
+    containers.forEach((container) => {
+      if (container) {
+        if (ScrollTrigger.isTouch) container.classList.remove("what-noTouch");
+        container.addEventListener("click", () => handleClick(container));
+      }
+    });
     return () => {
-      containerRef.current.forEach((container) => {
+      containers.forEach((container) => {
         if (container) {
           container.removeEventListener("click", () => handleClick(container));
         }
@@ -25,7 +24,7 @@ const WhatIDo = () => {
     };
   }, []);
   return (
-    <div className="whatIDO">
+    <div className="whatIDO" id="skills">
       <div className="what-box">
         <h2 className="title">
           W<span className="hat-h2">HAT</span>

@@ -85,6 +85,15 @@ body {
   position: relative;
 }
 
+/* Inset content between left social icons and right resume button */
+@media screen and (min-width: 900px) {
+  #smooth-content .container-main {
+    padding-left: 80px;
+    padding-right: 80px;
+    box-sizing: border-box;
+  }
+}
+
 .container1 {
   width: var(--cWidth);
   height: var(--vh);
@@ -118,10 +127,11 @@ body {
   text-align: center;
   position: absolute;
   width: 100%;
-  top: 120px;
+  top: 60px;
   left: 0;
   font-weight: 400;
   text-transform: uppercase;
+  padding-top: 0;
 }
 
 @media screen and (min-width: 768px) {

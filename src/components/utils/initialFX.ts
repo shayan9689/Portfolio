@@ -3,16 +3,22 @@ import gsap from "gsap";
 import { smoother } from "../Navbar";
 
 export function initialFX() {
-  document.body.style.overflowY = "auto";
-  smoother.paused(false);
-  document.getElementsByTagName("main")[0].classList.add("main-active");
+  try {
+    document.body.style.overflowY = "auto";
+    if (smoother) smoother.paused(false);
+    const main = document.getElementsByTagName("main")[0];
+    if (main) main.classList.add("main-active");
+  } catch (_) {
+    // continue so loading screen can hide
+  }
   gsap.to("body", {
     backgroundColor: "#0a0e17",
     duration: 0.5,
     delay: 1,
   });
 
-  var landingText = new SplitText(
+  try {
+    var landingText = new SplitText(
     [".landing-info h3", ".landing-intro h2", ".landing-intro h1"],
     {
       type: "chars,lines",
@@ -78,6 +84,9 @@ export function initialFX() {
 
   LoopText(landingText2, landingText3);
   LoopText(landingText4, landingText5);
+  } catch (_) {
+    // SplitText/DOM not ready; skip animation
+  }
 }
 
 function LoopText(Text1: SplitText, Text2: SplitText) {

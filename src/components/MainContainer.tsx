@@ -2,6 +2,7 @@ import { lazy, PropsWithChildren, Suspense, useEffect, useState } from "react";
 import About from "./About";
 import Career from "./Career";
 import Contact from "./Contact";
+import Services from "./Services";
 import Cursor from "./Cursor";
 import Landing from "./Landing";
 import Navbar from "./Navbar";
@@ -9,6 +10,7 @@ import SocialIcons from "./SocialIcons";
 import WhatIDo from "./WhatIDo";
 import Work from "./Work";
 import setSplitText from "./utils/splitText";
+import { registerSectionAnimations } from "./utils/sectionAnimations";
 
 const TechStack = lazy(() => import("./TechStack"));
 
@@ -19,7 +21,11 @@ const MainContainer = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const resizeHandler = () => {
-      setSplitText();
+      try {
+        setSplitText();
+      } catch (_) {
+        // SplitText may fail if DOM not ready
+      }
       setIsDesktopView(window.innerWidth > 1024);
     };
     resizeHandler();
@@ -28,6 +34,17 @@ const MainContainer = ({ children }: PropsWithChildren) => {
       window.removeEventListener("resize", resizeHandler);
     };
   }, [isDesktopView]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        registerSectionAnimations();
+      } catch (_) {
+        // ScrollTrigger/sections may not be ready
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
     <div className="container-main">
@@ -41,6 +58,7 @@ const MainContainer = ({ children }: PropsWithChildren) => {
             <Landing>{!isDesktopView && children}</Landing>
             <About />
             <WhatIDo />
+            <Services />
             <Career />
             <Work />
             {isDesktopView && (

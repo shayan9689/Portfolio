@@ -2,39 +2,49 @@ import { useState, FormEvent } from "react";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import "./styles/Contact.css";
 
+const API_BASE_URL = "https://shayan-personal-assistant.vercel.app";
+const CONTACT_ENDPOINT = `${API_BASE_URL}/contact`;
+
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const formId = import.meta.env.VITE_FORMSPREE_ID;
-  const formAction = formId
-    ? `https://formspree.io/f/${formId}`
-    : "";
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formId) {
-      setStatus("error");
-      return;
-    }
     setStatus("sending");
-    const form = e.currentTarget;
-    fetch(formAction, {
-      method: "POST",
-      body: new FormData(form),
-      headers: { Accept: "application/json" },
-    })
-      .then((res) => {
-        if (res.ok) {
-          setStatus("sent");
-          setFormData({ name: "", email: "", message: "" });
-        } else setStatus("error");
-      })
-      .catch(() => setStatus("error"));
+    setErrorMessage("");
+
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.success) {
+        setStatus("sent");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setStatus("error");
+        setErrorMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setStatus("error");
+      setErrorMessage("Failed to send. Check your connection and try again.");
+    }
   };
 
   const handleChange = (
@@ -60,14 +70,8 @@ const Contact = () => {
             <form
               className="contact-form"
               onSubmit={handleSubmit}
-              action={formAction}
-              method="POST"
+              noValidate
             >
-              <input
-                type="hidden"
-                name="_subject"
-                value="Portfolio contact form"
-              />
               <div className="contact-form-group">
                 <label htmlFor="contact-name">Name</label>
                 <input
@@ -95,6 +99,19 @@ const Contact = () => {
                 />
               </div>
               <div className="contact-form-group">
+                <label htmlFor="contact-subject">Subject</label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  name="subject"
+                  placeholder="Subject line"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  data-cursor="disable"
+                />
+              </div>
+              <div className="contact-form-group">
                 <label htmlFor="contact-message">Message</label>
                 <textarea
                   id="contact-message"
@@ -107,6 +124,18 @@ const Contact = () => {
                   data-cursor="disable"
                 />
               </div>
+
+              {status === "sent" && (
+                <p className="contact-form-message contact-form-message-success">
+                  Message sent! I&apos;ll get back to you soon.
+                </p>
+              )}
+              {status === "error" && errorMessage && (
+                <p className="contact-form-message contact-form-message-error">
+                  {errorMessage}
+                </p>
+              )}
+
               <button
                 type="submit"
                 className="contact-form-submit"
@@ -117,11 +146,7 @@ const Contact = () => {
                   ? "Sending..."
                   : status === "sent"
                     ? "Sent ✓"
-                    : status === "error" && !formId
-                      ? "Configure Formspree (see README)"
-                      : status === "error"
-                        ? "Send failed — try again"
-                        : "Send message"}
+                    : "Send message"}
               </button>
             </form>
           </div>

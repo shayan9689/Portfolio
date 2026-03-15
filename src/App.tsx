@@ -9,9 +9,26 @@ const App = () => {
   return (
     <>
       <LoadingProvider>
-        <Suspense>
+        <Suspense
+          fallback={
+            <div
+              style={{
+                width: "100vw",
+                height: "100vh",
+                background: "#0a0e17",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#5eead4",
+                fontFamily: "Geist, sans-serif",
+              }}
+            >
+              Loading…
+            </div>
+          }
+        >
           <MainContainer>
-            <Suspense>
+            <Suspense fallback={null}>
               <CharacterModel />
             </Suspense>
           </MainContainer>

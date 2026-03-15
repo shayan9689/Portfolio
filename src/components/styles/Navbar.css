@@ -3,6 +3,7 @@
   max-width: var(--cMaxWidth);
   width: var(--cWidth);
   justify-content: space-between;
+  align-items: center;
   padding: 20px 0px;
   margin-bottom: -100px;
   box-sizing: border-box;
@@ -30,20 +31,39 @@
   font-weight: 600;
   cursor: pointer;
 }
-.navbar-connect {
+.header ul a {
+  color: inherit;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+}
+.header ul a:hover,
+.header ul a.active {
+  background: rgba(139, 90, 43, 0.35);
+  color: #eae5ec;
+}
+.header ul a:hover::after,
+.header ul a.active::after {
+  content: "";
   position: absolute;
-  display: none;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 15px;
-  letter-spacing: 1px;
-  font-weight: 500;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 1px;
+  background: rgba(139, 90, 43, 0.8);
 }
 .navbar-title {
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.2px;
+  color: #eae5ec;
+  text-decoration: none;
+}
+.navbar-title-dot {
+  color: #c4a574;
+  margin-left: 1px;
 }
 @media only screen and (min-width: 500px) {
   .header {
@@ -61,21 +81,13 @@
     font-size: 16px;
   }
 }
-@media only screen and (min-width: 900px) {
-  .navbar-connect {
-    display: block;
-  }
-}
 @media only screen and (min-width: 1200px) {
   .header {
     padding: 35px 0px;
   }
   .header ul {
-    column-gap: 80px;
-    font-size: 16px;
-  }
-  .navbar-connect {
-    font-size: 16px;
+    column-gap: 28px;
+    font-size: 15px;
   }
   .navbar-title {
     font-size: 18px;

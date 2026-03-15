@@ -15,19 +15,57 @@
   width: 500px;
   max-width: calc(100% - 15px);
 }
+.about-tag {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accentColor);
+  margin: 0 0 8px 0;
+  opacity: 0.9;
+}
+
 .about-me h3 {
   font-size: 25px;
   text-transform: uppercase;
   letter-spacing: 7px;
   font-weight: 400;
   color: var(--accentColor);
+  margin: 0 0 8px 0;
 }
 
-.about-me p {
-  font-size: 33px;
+.about-experience {
+  font-size: 18px;
+  font-weight: 500;
+  opacity: 0.85;
+  margin: 0 0 12px 0;
+}
+
+.about-who {
+  font-size: 22px;
   font-weight: 600;
-  line-height: 36px;
-  letter-spacing: 1px;
+  margin: 0 0 16px 0;
+}
+
+.about-me .para,
+.about-me .para-2 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color: rgba(234, 229, 236, 0.95);
+}
+
+.about-me .para {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 32px;
+  letter-spacing: 0.5px;
+  margin: 0 0 16px 0;
+}
+
+.about-me .para-2 {
+  font-size: 24px;
+  line-height: 30px;
+  margin: 0;
 }
 
 @media only screen and (min-width: 600px) {
@@ -39,7 +77,6 @@
   .about-me {
     width: 500px;
     max-width: calc(100% - 70px);
-    transform: translateY(0%);
   }
   .about-section {
     opacity: 1;
@@ -58,14 +95,16 @@
     padding: 0px;
     width: 50%;
   }
-  .about-me p {
-    font-size: 1.9vw;
-    line-height: 2.3vw;
+  .about-me .para,
+  .about-me .para-2 {
+    font-size: 1.55vw;
+    line-height: 2vw;
   }
 }
 @media only screen and (min-width: 1950px) {
-  .about-me p {
-    font-size: 2.5rem;
-    line-height: 2.7rem;
+  .about-me .para,
+  .about-me .para-2 {
+    font-size: 2rem;
+    line-height: 2.4rem;
   }
 }
